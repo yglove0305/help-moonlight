@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="ko" dir="ltr">
+<head>
+  <!-- 문서 메타데이터: W3C 표준 및 접근성 고려 -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>사이트 오류 해결방법 문서 | 가이드 & 체크리스트</title>
+  <meta name="description" content="웹사이트에서 흔히 발생하는 오류 유형과 해결 방법을 W3C 표준과 접근성 지침(WCAG)에 맞춰 정리한 종합 가이드입니다.">
+  <meta name="keywords" content="W3C, WCAG, 접근성, SEO, 오류, 디버깅, 성능, 보안, HTML5, ARIA">
+  <meta name="author" content="웹 표준 가이드팀">
+  <link rel="canonical" href="https://example.com/site-error-resolution-guide">
+  <!-- Open Graph -->
+  <meta property="og:title" content="사이트 오류 해결방법 문서 | W3C 적용 가이드">
+  <meta property="og:description" content="W3C 표준과 WCAG 접근성 지침에 따른 오류 해결 체크리스트와 실무 팁을 제공합니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://example.com/site-error-resolution-guide">
+  <meta property="og:image" content="https://example.com/assets/og-image.png">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="사이트 오류 해결방법 문서">
+  <meta name="twitter:description" content="표준 기반 오류 해결 체크리스트와 베스트 프랙티스.">
+  <!-- 구조화 데이터 (Schema.org) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "사이트 오류 해결방법 문서",
+    "description": "W3C 표준과 WCAG 기반의 웹사이트 오류 해결 가이드 및 체크리스트",
+    "author": { "@type": "Organization", "name": "웹 표준 가이드팀" },
+    "inLanguage": "ko-KR",
+    "datePublished": "2025-10-26",
+    "dateModified": "2025-10-26",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://example.com/site-error-resolution-guide" }
+  }
+  </script>
+  <!-- 파비콘 -->
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <!-- 기본 스타일: 명확한 대비와 가독성, 모듈화 -->
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #ffffff;
+      --fg: #222222;
+      --muted: #555555;
+      --primary: #0b5fff;
+      --success: #1a7f37;
+      --warning: #b88900;
+      --danger: #c62828;
+      --border: #dcdcdc;
+      --code-bg: #f6f8fa;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #101317;
+        --fg: #eaeef2;
+        --muted: #9aa4af;
+        --border: #2b3440;
+        --code-bg: #1b212a;
+      }
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", "Apple SD Gothic Neo", Arial, "Helvetica Neue", Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.6;
+    }
+    a { color: var(--primary); text-decoration: none; }
+    a:focus, a:hover { text-decoration: underline; }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+    header[role="banner"] {
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(11,95,255,0.06), transparent);
+    }
+    header .title {
+      display: flex; align-items: center; gap: 1rem;
+    }
+    header .title h1 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
+    nav[aria-label="문서 탐색"] {
+      position: sticky; top: 0; z-index: 10;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+    nav ul { display: flex; flex-wrap: wrap; gap: .5rem; list-style: none; margin: 0; padding: .5rem 1rem; }
+    nav li { margin: 0; }
+    main { padding: 1rem 0; }
+    section { padding: 1rem 0; border-bottom: 1px solid var(--border); }
+    h2, h3, h4 { scroll-margin-top: 5rem; }
+    .kbd { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; background: var(--code-bg); padding: 0 .4rem; border-radius: 4px; border: 1px solid var(--border); }
+    code, pre { background: var(--code-bg); border-radius: 6px; }
+    pre { padding: 1rem; overflow: auto; border: 1px solid var(--border); }
+    .callout {
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--primary);
+      padding: .75rem 1rem;
+      background: rgba(11,95,255,0.06);
+      margin: 1rem 0;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      background: rgba(0,0,0,0.02);
+    }
+    .status {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .25rem .5rem; border-radius: 999px; font-size: .85rem;
+      border: 1px solid var(--border);
+    }
+    .status.success { border-color: var(--success); color: var(--success); }
+    .status.warning { border-color: var(--warning); color: var(--warning); }
+    .status.danger { border-color: var(--danger); color: var(--danger); }
+    details { border: 1px solid var(--border); border-radius: 6px; padding: .5rem 1rem; background: rgba(0,0,0,0.02); }
+    summary { cursor: pointer; font-weight: 600; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid var(--border); padding: .5rem; text-align: left; }
+    th { background: rgba(0,0,0,0.04); }
+    footer { border-top: 1px solid var(--border); padding: 2rem 0; color: var(--muted); }
+    /* 시각적 숨김: 스크린 리더에만 노출 */
+    .sr-only {
+      position: absolute !important;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0,0,0,0);
+      white-space: nowrap; border: 0;
+    }
+  </style>
+</head>
+<body>
+  <a href="#content" class="sr-only">본문으로 건너뛰기</a>
+
+  <header role="banner" class="container">
+    <div class="title">
+      <img src="/assets/icon.svg" alt="문서 아이콘" width="36" height="36" decoding="async">
+      <h1>사이트 오류 해결방법 문서</h1>
+    </div>
+    <p id="doc-intro">
+      본 문서는 W3C 표준과 웹 접근성 지침(WCAG), 모던 브라우저 호환성을 고려하여
+      웹사이트 오류를 진단하고 해결하는 실무형 가이드입니다. 개발, QA, 운영팀이 함께 사용할 수 있도록
+      체크리스트와 예시 코드를 포함합니다.
+    </p>
+  </header>
+
+  <nav aria-label="문서 탐색">
+    <ul class="container">
+      <li><a href="#content">개요</a></li>
+      <li><a href="#common-errors">일반 오류 유형</a></li>
+      <li><a href="#html-css">HTML/CSS 오류</a></li>
+      <li><a href="#js-runtime">자바스크립트/런타임 오류</a></li>
+      <li><a href="#network-seo">네트워크/SEO 문제</a></li>
+      <li><a href="#accessibility">접근성 개선</a></li>
+      <li><a href="#performance">성능 최적화</a></li>
+      <li><a href="#security">보안 점검</a></li>
+      <li><a href="#checklists">체크리스트</a></li>
+      <li><a href="#appendix">부록 & 참고</a></li>
+    </ul>
+  </nav>
+
+  <main id="content" class="container" role="main">
+    <section aria-labelledby="overview">
+      <h2 id="overview">개요 및 원칙</h2>
+      <div class="callout" role="note">
+        <p><strong>핵심:</strong> 오류 해결은 재현 → 관측 → 원인 분리 → 수정 → 검증 → 회귀 테스트의 순환입니다. 표준 준수와 접근성은 문제 예방의 가장 강력한 기본기입니다.</p>
+      </div>
+      <ul>
+        <li><strong>표준 준수:</strong> 시맨틱 HTML, 올바른 문서 구조, 유효한 속성/값을 사용합니다.</li>
+        <li><strong>접근성 우선:</strong> 키보드 내비게이션, 대체 텍스트, 적절한 ARIA 사용으로 모두에게 동작하게 합니다.</li>
+        <li><strong>가시성 확보:</strong> 로깅, 에러 바운더리, 모니터링으로 문제가 보이게 합니다.</li>
+        <li><strong>회귀 방지:</strong> 자동화 테스트와 릴리즈 체크리스트를 유지합니다.</li>
+      </ul>
+    </section>
+
+    <section id="common-errors" aria-labelledby="common-errors-title">
+      <h2 id="common-errors-title">일반 오류 유형과 빠른 진단</h2>
+      <div class="grid" role="list">
+        <article class="card" role="listitem">
+          <h3>콘솔 에러/경고</h3>
+          <p><strong>증상:</strong> 브라우저 콘솔에 빨간 에러, 노란 경고가 반복적으로 출력됩니다.</p>
+          <p><strong>진단:</strong> 에러 메시지와 스택트레이스를 기록하고, 가장 위의 원인부터 추적하세요.</p>
+          <p class="status danger">중요: 사용자 인터랙션 차단 가능</p>
+        </article>
+        <article class="card" role="listitem">
+          <h3>네트워크 실패</h3>
+          <p><strong>증상:</strong> 요청이 4xx/5xx 또는 CORS 차단으로 실패합니다.</p>
+          <p><strong>진단:</strong> 상태코드, 응답 헤더, 프리플라이트(OPTIONS) 확인.</p>
+          <p class="status warning">경고: 데이터 불일치 발생 가능</p>
+        </article>
+        <article class="card" role="listitem">
+          <h3>레이아웃 깨짐</h3>
+          <p><strong>증상:</strong> 특정 해상도/브라우저에서 UI가 겹치거나 보이지 않습니다.</p>
+          <p><strong>진단:</strong> CSS 검증, 컨테이너/그리드 기준 확인, 접근성 대비 점검.</p>
+          <p class="status warning">경고: 사용성 저하</p>
+        </article>
+        <article class="card" role="listitem">
+          <h3>접근성 실패</h3>
+          <p><strong>증상:</strong> 키보드 포커스 이동 불가, 스크린 리더 읽기 오류.</p>
+          <p><strong>진단:</strong> 포커스 순서, ARIA 라벨, 이름/역할/값 검사.</p>
+          <p class="status success">개선 시 UX 큰 폭 향상</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="html-css" aria-labelledby="html-css-title">
+      <h2 id="html-css-title">HTML/CSS 오류 해결</h2>
+
+      <h3>시맨틱 구조와 유효성</h3>
+      <ul>
+        <li><strong>문서 구조:</strong> 헤딩(H1–H6)은 계층적으로 사용하고 스킵하지 않습니다.</li>
+        <li><strong>대체 텍스트:</strong> 의미 있는 이미지에는 적절한 <code>alt</code>를 제공합니다.</li>
+        <li><strong>양식 접근성:</strong> <code>label</code>은 <code>for</code>로 컨트롤과 연결하고 에러 메시지에 <code>aria-live</code>를 사용합니다.</li>
+      </ul>
+
+      <details>
+        <summary>예시: 올바른 양식 마크업과 에러 상태</summary>
+        <form action="/submit" method="post" novalidate aria-describedby="form-help">
+          <p id="form-help">필수 항목을 정확히 입력해 주세요.</p>
+          <div>
+            <label for="email">이메일</label>
+            <input id="email" name="email" type="email" required aria-invalid="false" aria-describedby="email-error">
+            <span id="email-error" class="sr-only" aria-live="polite"></span>
+          </div>
+          <div>
+            <label for="pwd">비밀번호</label>
+            <input id="pwd" name="pwd" type="password" minlength="8" required aria-invalid="false" aria-describedby="pwd-error">
+            <span id="pwd-error" class="sr-only" aria-live="polite"></span>
+          </div>
+          <button type="submit">제출</button>
+        </form>
+        <script>
+          // 접근성 친화적 클라이언트 검증
+          (function () {
+            const form = document.querySelector('form');
+            const email = document.getElementById('email');
+            const pwd = document.getElementById('pwd');
+            const emailError = document.getElementById('email-error');
+            const pwdError = document.getElementById('pwd-error');
+
+            form.addEventListener('submit', function (e) {
+              let valid = true;
+              emailError.textContent = '';
+              pwdError.textContent = '';
+              email.setAttribute('aria-invalid', 'false');
+              pwd.setAttribute('aria-invalid', 'false');
+
+              if (!email.value || !email.checkValidity()) {
+                emailError.textContent = '유효한 이메일 주소를 입력하세요.';
+                email.setAttribute('aria-invalid', 'true');
+                valid = false;
+              }
+              if (!pwd.value || pwd.value.length < 8) {
+                pwdError.textContent = '비밀번호는 8자 이상이어야 합니다.';
+                pwd.setAttribute('aria-invalid', 'true');
+                valid = false;
+              }
+              if (!valid) e.preventDefault();
+            });
+          }());
+        </script>
+      </details>
+
+      <h3>레이아웃 깨짐 디버깅</h3>
+      <ul>
+        <li><strong>컨테이너 크기:</strong> 부모 요소의 <code>overflow</code>와 <code>position</code>을 점검합니다.</li>
+        <li><strong>그리드/플렉스:</strong> 최소 너비(<code>min-width</code>)와 축 정렬을 확인합니다.</li>
+        <li><strong>반응형 단위:</strong> <code>clamp()</code>, <code>minmax()</code>로 급격한 변형을 줄입니다.</li>
+      </ul>
+
+      <details>
+        <summary>예시: 안정적인 그리드 카드</summary>
+        <div class="grid" aria-label="카드 그리드 예시">
+          <article class="card"><h4>카드 A</h4><p>내용</p></article>
+          <article class="card"><h4>카드 B</h4><p>내용</p></article>
+          <article class="card"><h4>카드 C</h4><p>내용</p></article>
+        </div>
+        <style>
+          /* 레이아웃 안정화 예시 */
+          .card h4 { margin-top: 0; }
+          .card { min-height: 120px; }
+        </style>
+      </details>
+
+      <h3>유효성 검사 포인트</h3>
+      <ul>
+        <li><strong>중복 ID:</strong> 페이지 내 ID는 고유해야 합니다.</li>
+        <li><strong>닫힘 태그:</strong> 모든 요소가 올바르게 닫혀야 합니다.</li>
+        <li><strong>잘못된 속성:</strong> 지원되지 않는 속성/값을 제거하거나 대체합니다.</li>
+      </ul>
+    </section>
+
+    <section id="js-runtime" aria-labelledby="js-runtime-title">
+      <h2 id="js-runtime-title">자바스크립트 및 런타임 오류 해결</h2>
+
+      <h3>콘솔/스택트레이스 해석</h3>
+      <ul>
+        <li><strong>원인 라인:</strong> 스택 최상단의 사용자 코드 라인을 우선 확인합니다.</li>
+        <li><strong>재현 시나리오:</strong> 최소 재현 케이스를 만들고 외부 의존성을 제거합니다.</li>
+        <li><strong>소스맵:</strong> 프로덕션 번들에는 정확한 소스맵을 제공하세요.</li>
+      </ul>
+
+      <details>
+        <summary>예시: 안전한 DOM 접근</summary>
+        <pre><code class="language-js">
+// 위험: null 요소에 접근
+// const node = document.querySelector('.target').textContent;
+
+// 안전: 존재 확인 후 접근
+const node = document.querySelector('.target');
+if (node) {
+  node.textContent = '준비 완료';
+} else {
+  console.warn('요소(.target)를 찾을 수 없습니다.');
+}
+        </code></pre>
+      </details>
+
+      <h3>에러 경계와 복구</h3>
+      <ul>
+        <li><strong>UI 에러 경계:</strong> 프런트엔드 프레임워크의 에러 바운더리로 사용자 영향 최소화.</li>
+        <li><strong>재시도 정책:</strong> 지수 백오프와 <span class="kbd">Retry-After</span> 헤더 고려.</li>
+        <li><strong>로깅:</strong> 민감정보를 제외하고 에러 ID, 사용자 환경, 스택을 수집.</li>
+      </ul>
+
+      <details>
+        <summary>예시: 네트워크 재시도 유틸</summary>
+        <pre><code class="language-js">
+async function fetchWithRetry(url, opts = {}, { retries = 3, backoff = 500 } = {}) {
+  let lastErr;
+  for (let i = 0; i &lt; retries; i++) {
+    try {
+      const res = await fetch(url, opts);
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res;
+    } catch (err) {
+      lastErr = err;
+      await new Promise(r =&gt; setTimeout(r, backoff * (i + 1)));
+    }
+  }
+  throw lastErr;
+}
+        </code></pre>
+      </details>
+    </section>
+
+    <section id="network-seo" aria-labelledby="network-seo-title">
+      <h2 id="network-seo-title">네트워크 및 SEO 문제 해결</h2>
+
+      <h3>HTTP 상태코드와 CORS</h3>
+      <ul>
+        <li><strong>4xx:</strong> 클라이언트 요청 오류. 파라미터/인증을 점검합니다.</li>
+        <li><strong>5xx:</strong> 서버 내부 오류. 로깅과 알림으로 신속히 대응합니다.</li>
+        <li><strong>CORS:</strong> 프리플라이트 실패, <code>Access-Control-Allow-Origin</code> 헤더 설정 확인.</li>
+      </ul>
+
+      <details>
+        <summary>예시: CORS 프리플라이트 응답 헤더</summary>
+        <pre><code class="language-http">
+HTTP/1.1 204 No Content
+Access-Control-Allow-Origin: https://example.com
+Access-Control-Allow-Methods: GET, POST, OPTIONS
+Access-Control-Allow-Headers: Content-Type, Authorization
+Access-Control-Max-Age: 600
+        </code></pre>
+      </details>
+
+      <h3>SEO 기본 점검</h3>
+      <ul>
+        <li><strong>고유 제목/설명:</strong> 페이지마다 <code>title</code>, <code>meta description</code>을 최적화합니다.</li>
+        <li><strong>링크 가시성:</strong> 중요한 내비게이션은 자바스크립트 없이도 접근 가능해야 합니다.</li>
+        <li><strong>크롤러 친화:</strong> <code>robots.txt</code>와 <code>sitemap.xml</code>을 제공하고 오류 페이지는 올바른 상태코드를 사용합니다.</li>
+      </ul>
+    </section>
+
+    <section id="accessibility" aria-labelledby="accessibility-title">
+      <h2 id="accessibility-title">접근성 개선(WCAG)</h2>
+
+      <h3>이름/역할/값</h3>
+      <ul>
+        <li><strong>대화형 컨트롤:</strong> <code>button</code>, <code>a</code> 등 기본 요소를 우선 사용합니다.</li>
+        <li><strong>ARIA 사용:</strong> 역할을 덮어쓰지 말고, 필요한 경우에만 추가 속성을 제공합니다.</li>
+        <li><strong>라이브 영역:</strong> 동적 업데이트에는 <code>aria-live</code>를 적용합니다.</li>
+      </ul>
+
+      <details>
+        <summary>예시: 포커스 가시성과 키보드 순서</summary>
+        <style>
+          :focus { outline: 3px solid var(--primary); outline-offset: 2px; }
+          nav a { padding: .25rem .5rem; border-radius: 4px; }
+        </style>
+        <p>탭 순서는 DOM 순서를 따르며, 숨김 요소는 포커스가 가지 않도록 합니다.</p>
+      </details>
+
+      <h3>색 대비와 텍스트</h3>
+      <ul>
+        <li><strong>대비 기준:</strong> 정상 텍스트는 최소 4.5:1, 큰 텍스트는 3:1을 목표로 합니다.</li>
+        <li><strong>링크 구분:</strong> 색상 외에 밑줄 등 시각적 차이를 제공합니다.</li>
+        <li><strong>언어 표기:</strong> <code>lang</code> 속성을 정확히 설정해 발음/읽기 품질을 향상합니다.</li>
+      </ul>
+    </section>
+
+    <section id="performance" aria-labelledby="performance-title">
+      <h2 id="performance-title">성능 최적화와 관련 오류</h2>
+
+      <h3>로드 성능</h3>
+      <ul>
+        <li><strong>리소스 힌트:</strong> <code>preload</code>, <code>prefetch</code>를 적절히 사용합니다.</li>
+        <li><strong>이미지 최적화:</strong> <code>srcset</code>, <code>sizes</code>, <code>loading="lazy"</code>.</li>
+        <li><strong>번들 분할:</strong> 초기 로드에 필요한 코드만 제공합니다.</li>
+      </ul>
+
+      <details>
+        <summary>예시: 반응형 이미지</summary>
+        <img
+          src="/images/sample-800.jpg"
+          srcset="/images/sample-400.jpg 400w, /images/sample-800.jpg 800w, /images/sample-1600.jpg 1600w"
+          sizes="(max-width: 600px) 90vw, 800px"
+          alt="반응형 이미지 예시"
+          loading="lazy"
+          decoding="async">
+      </details>
+
+      <h3>런타임 성능</h3>
+      <ul>
+        <li><strong>메모리 누수:</strong> 타이머/리스너 해제를 습관화합니다.</li>
+        <li><strong>레이아웃 스로틀링:</strong> 스크롤/리사이즈에 <code>requestAnimationFrame</code> 또는 <code>debounce</code>.</li>
+        <li><strong>비동기 처리:</strong> 대규모 연산은 Web Worker로 오프로드.</li>
+      </ul>
+    </section>
+
+    <section id="security" aria-labelledby="security-title">
+      <h2 id="security-title">보안 점검과 오류 예방</h2>
+
+      <h3>XSS/CSRF</h3>
+      <ul>
+        <li><strong>출력 인코딩:</strong> 사용자 입력을 HTML에 삽입하지 않거나 적절히 이스케이프합니다.</li>
+        <li><strong>콘텐츠 보안 정책(CSP):</strong> 인라인 스크립트 제한, 신뢰 도메인만 허용.</li>
+        <li><strong>CSRF 방지:</strong> 토큰 검증과 SameSite 쿠키 설정.</li>
+      </ul>
+
+      <details>
+        <summary>예시: 엄격한 CSP 헤더</summary>
+        <pre><code class="language-http">
+Content-Security-Policy: default-src 'self'; img-src 'self' https:; script-src 'self'; style-src 'self'; connect-src 'self' https:;
+        </code></pre>
+      </details>
+
+      <h3>에러 노출 최소화</h3>
+      <ul>
+        <li><strong>사용자 메시지:</strong> 내부 스택/쿼리 노출 금지.</li>
+        <li><strong>서버 로깅:</strong> 민감정보 마스킹, 접근 제어.</li>
+        <li><strong>서드파티:</strong> 외부 SDK 실패에 대비한 격리와 타임아웃.</li>
+      </ul>
+    </section>
+
+    <section id="checklists" aria-labelledby="checklists-title">
+      <h2 id="checklists-title">체크리스트</h2>
+
+      <h3>릴리즈 전 점검</h3>
+      <table aria-label="릴리즈 전 점검표">
+        <thead>
+          <tr>
+            <th scope="col">항목</th>
+            <th scope="col">설명</th>
+            <th scope="col">상태</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>HTML 유효성</td>
+            <td>중복 ID, 닫힘 태그, 속성 값 검증</td>
+            <td><span class="status success" aria-label="완료">완료</span></td>
+          </tr>
+          <tr>
+            <td>접근성</td>
+            <td>키보드 내비, 대체 텍스트, 대비</td>
+            <td><span class="status warning" aria-label="점검 필요">점검</span></td>
+          </tr>
+          <tr>
+            <td>네트워크</td>
+            <td>상태코드, CORS, 타임아웃</td>
+            <td><span class="status success" aria-label="완료">완료</span></td>
+          </tr>
+          <tr>
+            <td>성능</td>
+            <td>LCP/CLS/INP 기준 만족</td>
+            <td><span class="status warning" aria-label="점검 필요">점검</span></td>
+          </tr>
+          <tr>
+            <td>보안</td>
+            <td>CSP, XSS/CSRF 방지, 비밀관리</td>
+            <td><span class="status success" aria-label="완료">완료</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>장애 대응 절차</h3>
+      <ol>
+        <li><strong>감지:</strong> 모니터링 알림 수신, 영향 범위 파악.</li>
+        <li><strong>완화:</strong> 기능 플래그/롤백으로 사용자 영향 최소화.</li>
+        <li><strong>분석:</strong> 로그/추적 기반 원인 규명.</li>
+        <li><strong>수정:</strong> 패치 배포, 재발 방지 테스트 추가.</li>
+        <li><strong>회고:</strong> 문서화 및 프로세스 개선.</li>
+      </ol>
+    </section>
+
+    <section id="appendix" aria-labelledby="appendix-title">
+      <h2 id="appendix-title">부록 및 예시 코드 모음</h2>
+
+      <h3>에러 페이지(404/500) 접근성</h3>
+      <pre><code class="language-html">
+&lt;main role="main"&gt;
+  &lt;section aria-labelledby="error-title"&gt;
+    &lt;h1 id="error-title"&gt;요청하신 페이지를 찾을 수 없습니다 (404)&lt;/h1&gt;
+    &lt;p&gt;주소를 확인하거나 &lt;a href="/"&gt;홈으로 이동&lt;/a&gt;하세요.&lt;/p&gt;
+  &lt;/section&gt;
+&lt;/main&gt;
+      </code></pre>
+
+      <h3>서비스 워커 네트워크 오류 처리</h3>
+      <pre><code class="language-js">
+self.addEventListener('fetch', (event) =&gt; {
+  event.respondWith((async () =&gt; {
+    try {
+      const network = await fetch(event.request);
+      return network;
+    } catch {
+      const cache = await caches.match(event.request);
+      return cache || new Response('오프라인입니다.', { status: 503 });
+    }
+  })());
+});
+      </code></pre>
+
+      <h3>로그 필드 표준화</h3>
+      <pre><code class="language-json">
+{
+  "timestamp": "2025-10-26T21:25:00+09:00",
+  "level": "error",
+  "message": "API 응답 실패",
+  "errorId": "e-20251026-001",
+  "context": {
+    "route": "/checkout",
+    "userAgent": "Mozilla/5.0",
+    "locale": "ko-KR"
+  }
+}
+      </code></pre>
+    </section>
+  </main>
+
+  <footer class="container" role="contentinfo">
+    <p>© 2025 웹 표준 가이드팀. 본 문서는 W3C 권고안과 접근성 베스트 프랙티스를 기반으로 작성되었습니다.</p>
+    <p>문서 개선 제안은 contact@example.com 으로 보내주세요.</p>
+  </footer>
+</body>
+</html>
+```
