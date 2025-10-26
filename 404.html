@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>사이트에 연결할 수 없음</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #333;
+      margin: 0;
+      padding: 40px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      text-align: left;
+    }
+    h1 {
+      font-size: 24px;
+      color: #d93025;
+    }
+    .error-code {
+      color: #777;
+      margin-top: 20px;
+    }
+    .suggestions {
+      margin-top: 30px;
+    }
+    ul {
+      padding-left: 20px;
+    }
+    .icon {
+      font-size: 48px;
+      color: #d93025;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="icon">😕</div>
+    <h1>사이트에 연결할 수 없음</h1>
+    <p><strong>https://help-moonlight.pages.dev/</strong>의 서버 IP 주소를 찾을 수 없습니다.</p>
+    <div class="suggestions">
+      <p>다음을 시도해 보세요:</p>
+      <ul>
+        <li>인터넷 연결 확인</li>
+        <li>방화벽 및 프록시 설정 확인</li>
+        <li>DNS 캐시 지우기</li>
+      </ul>
+    </div>
+    <div class="error-code">ERR_NAME_NOT_RESOLVED</div>
+  </div>
+</body>
+</html>
